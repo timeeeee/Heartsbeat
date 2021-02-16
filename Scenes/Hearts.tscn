@@ -6,18 +6,41 @@
 
 [node name="Hearts" type="Node2D"]
 script = ExtResource( 1 )
+card_move_time = 0.2
 
-[node name="HumanPlayer" type="Node" parent="."]
+[node name="HumanPlayer" type="Node2D" parent="."]
+position = Vector2( 511.528, 514.047 )
 script = ExtResource( 2 )
 
+[node name="PlayPosition" type="Node2D" parent="HumanPlayer"]
+position = Vector2( -3.77979, -141.111 )
+
 [node name="Deck" type="Node2D" parent="."]
-position = Vector2( 439.474, 223.006 )
+position = Vector2( 503.73, 308.681 )
 
 [node name="WestPlayer" type="Node2D" parent="."]
+position = Vector2( 107.093, 303.641 )
+rotation = 1.5708
 script = ExtResource( 3 )
+
+[node name="PlayPosition" type="Node2D" parent="WestPlayer"]
+position = Vector2( 3.05176e-05, -301.121 )
 
 [node name="EastPlayer" type="Node2D" parent="."]
+position = Vector2( 919.742, 311.2 )
+rotation = 4.71239
 script = ExtResource( 3 )
 
+[node name="PlayPosition" type="Node2D" parent="EastPlayer"]
+position = Vector2( 8.81946, -317.5 )
+
 [node name="NorthPlayer" type="Node2D" parent="."]
+position = Vector2( 495.149, 114.653 )
+rotation = 3.14159
 script = ExtResource( 3 )
+
+[node name="PlayPosition" type="Node2D" parent="NorthPlayer"]
+position = Vector2( -8.81949, -125.992 )
+
+[node name="Pile" type="Node2D" parent="."]
+visible = false

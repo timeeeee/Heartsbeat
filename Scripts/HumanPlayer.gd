@@ -1,19 +1,9 @@
-extends Node
+extends HeartsPlayer
 
-
-var score: int
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-	
-	
-func take_card(card):
-	# quickly animate moving this card to the player's hand.
-	pass
-	
-	# shift other cards to center everything if necessary
-	pass
+	_show_cards = true
 
+func choose_move(cards_so_far: Array):
+	print("picking a move for the human player. HumanPlayer.choose_move not implemented")
+	_next_move = cards[0]
 	yield(get_tree().create_timer(.1), "timeout")

@@ -1,19 +1,8 @@
-extends Node
+extends HeartsPlayer
 
 
-var score: int
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
-
-func take_card(card):
-	# quickly animate moving this card to the player's hand.
-	pass
-	
-	# shift other cards to center everything if necessary
-	pass
-
-	yield(get_tree().create_timer(.1), "timeout")
+func choose_move(cards_so_far: Array):
+	_next_move = cards[randi() % cards.size()]
+	yield(get_tree().create_timer(0), "timeout")

@@ -1,5 +1,6 @@
 extends Node2D
 
+class_name Card
 
 var suit: String
 var rank: String
@@ -61,8 +62,8 @@ func flip():
 		
 		
 func reveal():
-	assert(not is_face_up)
-	flip()
+	if not is_face_up:
+		flip()
 	
 	
 func _to_string():
