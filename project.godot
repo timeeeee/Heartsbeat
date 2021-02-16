@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Heartsbeat"
-run/main_scene="res://Hearts.tscn"
+run/main_scene="res://Scenes/Hearts.tscn"
 config/icon="res://icon.png"
 
 [rendering]

@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/Game.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/HumanPlayer.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/RandomPlayer.gd" type="Script" id=3]
+
+[node name="Hearts" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="HumanPlayer" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="Deck" type="Node2D" parent="."]
+position = Vector2( 439.474, 223.006 )
+
+[node name="WestPlayer" type="Node2D" parent="."]
+script = ExtResource( 3 )
+
+[node name="EastPlayer" type="Node2D" parent="."]
+script = ExtResource( 3 )
+
+[node name="NorthPlayer" type="Node2D" parent="."]
+script = ExtResource( 3 )
