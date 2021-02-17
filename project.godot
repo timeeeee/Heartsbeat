@@ -15,12 +15,18 @@ _global_script_classes=[ {
 "path": "res://Scripts/Card.gd"
 }, {
 "base": "Node2D",
+"class": "Game",
+"language": "GDScript",
+"path": "res://Scripts/Game.gd"
+}, {
+"base": "Node2D",
 "class": "HeartsPlayer",
 "language": "GDScript",
 "path": "res://Scripts/Player.gd"
 } ]
 _global_script_class_icons={
 "Card": "",
+"Game": "",
 "HeartsPlayer": ""
 }
 

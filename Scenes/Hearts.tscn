@@ -1,16 +1,20 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Game.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/HumanPlayer.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/RandomPlayer.gd" type="Script" id=3]
+[ext_resource path="res://Sprites/cards.png" type="Texture" id=4]
+[ext_resource path="res://Scripts/Spin.gd" type="Script" id=5]
 
 [node name="Hearts" type="Node2D"]
 script = ExtResource( 1 )
 card_move_time = 0.2
+trick_delay = 4.0
 
 [node name="HumanPlayer" type="Node2D" parent="."]
 position = Vector2( 511.528, 514.047 )
 script = ExtResource( 2 )
+player_name = "Sally"
 
 [node name="PlayPosition" type="Node2D" parent="HumanPlayer"]
 position = Vector2( -3.77979, -141.111 )
@@ -22,6 +26,7 @@ position = Vector2( 503.73, 308.681 )
 position = Vector2( 107.093, 303.641 )
 rotation = 1.5708
 script = ExtResource( 3 )
+player_name = "West"
 
 [node name="PlayPosition" type="Node2D" parent="WestPlayer"]
 position = Vector2( 3.05176e-05, -301.121 )
@@ -30,6 +35,7 @@ position = Vector2( 3.05176e-05, -301.121 )
 position = Vector2( 919.742, 311.2 )
 rotation = 4.71239
 script = ExtResource( 3 )
+player_name = "East"
 
 [node name="PlayPosition" type="Node2D" parent="EastPlayer"]
 position = Vector2( 8.81946, -317.5 )
@@ -38,9 +44,17 @@ position = Vector2( 8.81946, -317.5 )
 position = Vector2( 495.149, 114.653 )
 rotation = 3.14159
 script = ExtResource( 3 )
+player_name = "North"
 
 [node name="PlayPosition" type="Node2D" parent="NorthPlayer"]
 position = Vector2( -8.81949, -125.992 )
 
 [node name="Pile" type="Node2D" parent="."]
 visible = false
+
+[node name="Spinner" type="Sprite" parent="."]
+position = Vector2( 57.9564, 59.2163 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 1, 117, 30, 56 )
+script = ExtResource( 5 )

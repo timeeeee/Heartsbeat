@@ -1,7 +1,9 @@
 extends Node2D
 
+class_name Game
 
 export var card_move_time: float
+export var trick_delay: float
 
 var scores: Dictionary
 var round_number: int
@@ -9,6 +11,7 @@ var round_number: int
 var human_player
 var players: Array
 
+var is_first_trick: bool
 var is_hearts_broken: bool
 var leads_next_trick: HeartsPlayer
 var hands: Dictionary
@@ -55,10 +58,12 @@ func play_game():
 	
 # deal a round, pass cards, play tricks until everyone's out of cards
 func play_round():
+	is_first_trick = true
+	is_hearts_broken = false
 	yield(deal(), "completed")
 	
 	for trick_number in range(13):
-		print("trick number", trick_number)
+		print("trick number ", trick_number)
 		yield(play_trick(), "completed")
 		
 	# move cards back from the pile to the deck
@@ -92,22 +97,37 @@ func play_trick():
 		
 		# get move from this player
 		yield(player.choose_move(cards_so_far), "completed")
+		print(player, " chose ", player._next_move)
 		var card = player.get_move()
 		yield(player.make_move(), "completed")
 		cards_so_far.append(card)
-		
+
 	# set whoever took the trick as the leader for the next round
-	print("setting new leader not implemented")
-	leads_next_trick = players[randi() % 4]
+	var trick_suit = cards_so_far[0].suit
+	var max_value = -1
+	var max_card = null
+	leads_next_trick = null
+	for index in range(4):
+		var card = cards_so_far[index]
+		var player = players[(index + leader_index) % 4]
+		if card.suit == "Hearts":
+			is_hearts_broken = true
+			
+		if card.suit == trick_suit and card.value > max_value:
+			leads_next_trick = player
+			max_value = card.value
+			max_card = card
+			
+	print(leads_next_trick, " won the trick with the ", max_card)
+	
+	yield(get_tree().create_timer(trick_delay), "timeout")
 
 	# now actually take the cards from the players and hide them somewhere
-	print("hiding cards")
-	for player in players:
-		var card = player.remove_card()
-		player.remove_child(card)
+	for card in cards_so_far:
+		card.get_parent().remove_child(card)
 		card.flip()
 		$Pile.add_child(card)
-	
-static func is_valid(cards_so_far: Array, card: Card) -> bool:
-	return true
+		
+	is_first_trick = false
+
 
