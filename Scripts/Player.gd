@@ -42,10 +42,6 @@ func take_card(card: Node2D):
 	add_child(card)
 	card.position = card.to_local(global_pos)
 	card.rotation = global_rotation - self.rotation
-	
-	# if this is the human player, show the cards
-	if _show_cards:
-		card.reveal()
 		
 	# start animating cards moving to correct positions
 	var shift_tweens = get_shift_card_tweens()
@@ -57,6 +53,10 @@ func take_card(card: Node2D):
 	
 	for t in shift_tweens:
 		yield(t, "tween_completed")
+		
+	# if this is the human player, show the cards
+	if _show_cards:
+		card.reveal()
 		
 		
 func _animate_card(card: Card, to: Vector2) -> Tween:

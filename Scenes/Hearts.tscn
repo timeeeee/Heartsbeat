@@ -9,7 +9,7 @@
 [node name="Hearts" type="Node2D"]
 script = ExtResource( 1 )
 card_move_time = 0.2
-trick_delay = 4.0
+trick_delay = 2.5
 
 [node name="HumanPlayer" type="Node2D" parent="."]
 position = Vector2( 511.528, 514.047 )
@@ -18,6 +18,9 @@ player_name = "Sally"
 
 [node name="PlayPosition" type="Node2D" parent="HumanPlayer"]
 position = Vector2( -3.77979, -141.111 )
+
+[node name="TookTrickPosition" type="Node2D" parent="HumanPlayer"]
+position = Vector2( 6.29956, 226.786 )
 
 [node name="Deck" type="Node2D" parent="."]
 position = Vector2( 503.73, 308.681 )
@@ -31,6 +34,9 @@ player_name = "West"
 [node name="PlayPosition" type="Node2D" parent="WestPlayer"]
 position = Vector2( 3.05176e-05, -301.121 )
 
+[node name="TookTrickPosition" type="Node2D" parent="WestPlayer"]
+position = Vector2( -3.77869, 301.121 )
+
 [node name="EastPlayer" type="Node2D" parent="."]
 position = Vector2( 919.742, 311.2 )
 rotation = 4.71239
@@ -39,6 +45,9 @@ player_name = "East"
 
 [node name="PlayPosition" type="Node2D" parent="EastPlayer"]
 position = Vector2( 8.81946, -317.5 )
+
+[node name="TookTrickPosition" type="Node2D" parent="EastPlayer"]
+position = Vector2( -2.51956, 272.143 )
 
 [node name="NorthPlayer" type="Node2D" parent="."]
 position = Vector2( 495.149, 114.653 )
@@ -49,12 +58,23 @@ player_name = "North"
 [node name="PlayPosition" type="Node2D" parent="NorthPlayer"]
 position = Vector2( -8.81949, -125.992 )
 
+[node name="TookTrickPosition" type="Node2D" parent="NorthPlayer"]
+position = Vector2( 7.55884, 240.645 )
+
 [node name="Pile" type="Node2D" parent="."]
 visible = false
 
 [node name="Spinner" type="Sprite" parent="."]
+visible = false
 position = Vector2( 57.9564, 59.2163 )
 texture = ExtResource( 4 )
 region_enabled = true
 region_rect = Rect2( 1, 117, 30, 56 )
 script = ExtResource( 5 )
+
+[node name="MessageBoard" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}

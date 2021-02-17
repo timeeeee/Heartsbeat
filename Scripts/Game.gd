@@ -73,6 +73,7 @@ func play_round():
 		$Deck.add_child(card)
 		card.position = Vector2(0, 0)
 		card.rotation = 0
+		card.z_index = 0
 	
 
 # shuffle and animate cards 
@@ -82,6 +83,7 @@ func deal():
 	# deal them to players (player.take_card(card))
 	var i = 0
 	for card in cards:
+		card.z_index = 1
 		var player = players[i % 4]
 		if card.rank == "Two" and card.suit == "Clubs":
 			leads_next_trick = player
@@ -124,6 +126,18 @@ func play_trick():
 	yield(get_tree().create_timer(trick_delay), "timeout")
 
 	# now actually take the cards from the players and hide them somewhere
+	# move off screen...
+	var target_node = leads_next_trick.get_node("TookTrickPosition")
+	var global_target = leads_next_trick.to_global(target_node.position)
+	for card in cards_so_far:
+		var target = card.get_parent().to_local(global_target)
+		var tween: Tween = card.get_node("Tween")
+		tween.interpolate_property(card, "position", card.position, target, card_move_time)
+		tween.start()
+		
+	print("waiting for cards to move offscreen")
+	yield(get_tree().create_timer(card_move_time), "timeout")
+	
 	for card in cards_so_far:
 		card.get_parent().remove_child(card)
 		card.flip()
