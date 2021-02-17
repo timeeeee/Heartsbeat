@@ -1,24 +1,15 @@
 extends HeartsPlayer
 
+signal card_was_clicked(card)
+
 export var player_name: String
 
 func _ready():
 	_show_cards = true
 	
 
-func _on_card_clicked():
-	# get *all* the cards that were just clicked
-	pass
-	
-	# which one's on top?
-	pass
-	
-	# emit signal
-	pass
-
 func choose_move(cards_so_far: Array):
 	var valid_cards = []
-	_next_move = null
 	if cards_so_far.empty():  # if we're leading...
 		for card in cards:
 			if card.suit != "Hearts" or game.is_hearts_broken:
@@ -42,13 +33,28 @@ func choose_move(cards_so_far: Array):
 				
 		valid_cards = [two_of_clubs]
 
-	# while not valid_cards.has(_next_move):
-		# pass
-
 	assert(valid_cards.size() > 0)
-	_next_move = valid_cards[randi() % valid_cards.size()]
-	yield(get_tree().create_timer(0), "timeout")
+	_next_move = null
+	while not valid_cards.has(_next_move):
+		_next_move = yield(self, "card_was_clicked")
 
 
 func _to_string():
 	return player_name
+
+
+func _input(event):
+	if event is InputEventMouseButton and event.is_pressed() and event.button_index == BUTTON_LEFT:
+		# which cards were clicked on?
+		var top_card = null
+		var max_z_index = -1
+		for card in cards:
+			var sprite = card.get_node("Face")
+			var local_position = sprite.to_local(event.position)
+			if sprite.get_rect().has_point(local_position):
+				if top_card == null or card.z_index > top_card.z_index:
+					top_card = card
+					
+		if top_card != null:
+			print(top_card, " was clicked")
+			emit_signal("card_was_clicked", top_card)
