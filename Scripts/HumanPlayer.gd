@@ -71,7 +71,6 @@ func _input(event):
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == BUTTON_LEFT:
 		# which cards were clicked on?
 		var top_card = null
-		var max_z_index = -1
 		for card in cards:
 			var sprite = card.get_node("Face")
 			var local_position = sprite.to_local(event.position)

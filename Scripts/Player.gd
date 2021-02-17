@@ -89,25 +89,11 @@ func make_move():
 	var index = cards.find(_next_move)
 	cards.remove(index)
 
-	var play_tween = _animate_card(card, $PlayPosition.position)
+	_animate_card(card, $PlayPosition.position)
 
-	var shift_tweens = get_shift_card_tweens()
+	get_shift_card_tweens()
 	
 	yield(get_tree().create_timer(_card_move_time), "timeout")
-	
-#	print("is play_tween active? ", play_tween.is_active())
-#	print("runtime: ", play_tween.get_runtime())
-#	if play_tween.is_active():
-#		yield(play_tween, "tween_completed")
-#	print("... done with play_tween")
-#	print("is play_tween active now? ", play_tween.is_active())
-#	print("runtime: ", play_tween.get_runtime())
-#
-#	print("waiting for shift_tweens...")
-#	for tween in shift_tweens:
-#		if tween.is_active():
-#			yield(tween, "tween_completed")
-#	print("... done with shift_tweens")
 	
 	card.reveal()
 	_next_move = null
