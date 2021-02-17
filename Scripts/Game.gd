@@ -61,6 +61,7 @@ func play_round():
 	is_first_trick = true
 	is_hearts_broken = false
 	yield(deal(), "completed")
+	yield($HumanPlayer.sort_cards(), "completed")
 	
 	for trick_number in range(13):
 		print("trick number ", trick_number)

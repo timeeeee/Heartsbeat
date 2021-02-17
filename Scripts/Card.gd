@@ -5,6 +5,7 @@ class_name Card
 var suit: String
 var rank: String
 var value: int
+var suit_value: int
 var rank_int: int
 var suit_int: int
 var is_face_up: bool
@@ -50,12 +51,21 @@ var _suits = {
 }
 
 
+var _suit_values = {
+	"Spades": 0,
+	"Diamonds": 1,
+	"Clubs": 2,
+	"Hearts": 3
+}
+
+
 func set_rank_and_suit(_rank: String, _suit: String):
 	rank = _rank
 	suit = _suit
 	rank_int = _ranks[rank]
 	suit_int = _suits[suit]
-	value = _values[_rank]
+	value = _values[rank]
+	suit_value = _suit_values[suit]
 	
 	$Face.region_rect = Rect2(
 		Vector2(32 * rank_int + 1, 58 * suit_int + 1),

@@ -37,6 +37,30 @@ func choose_move(cards_so_far: Array):
 	_next_move = null
 	while not valid_cards.has(_next_move):
 		_next_move = yield(self, "card_was_clicked")
+		
+
+func _is_card_less_than(card1: Card, card2: Card):
+	if card1.suit_value < card2.suit_value:
+		return true
+	elif card1.suit_value > card2.suit_value:
+		return false
+	else:
+		return card1.rank_int < card2.rank_int
+	
+		
+func sort_cards():
+	var new_order = cards.duplicate()
+	new_order.sort_custom(self, "_is_card_less_than")
+	for index in range(cards.size()):
+		var old_card = cards[index]
+		var new_card = new_order[index]
+		new_card.z_index = index
+		var tween: Tween = new_card.get_node("Tween")
+		tween.interpolate_property(new_card, "position", new_card.position, old_card.position, _card_move_time)
+		tween.start()
+		
+	cards = new_order
+	yield(get_tree().create_timer(_card_move_time), "timeout")
 
 
 func _to_string():
