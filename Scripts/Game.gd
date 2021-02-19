@@ -41,6 +41,7 @@ func _ready():
 
 # play tricks until the someone has 100 points
 func play_game():
+	$MessageBoard.show_message("Play ball!")
 	for player in players:
 		scores[player] = 0
 	
