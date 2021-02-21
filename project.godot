@@ -33,13 +33,19 @@ _global_script_classes=[ {
 "class": "ScoreBoard",
 "language": "GDScript",
 "path": "res://Scripts/ScoreBoard.gd"
+}, {
+"base": "Node2D",
+"class": "Stethoscope",
+"language": "GDScript",
+"path": "res://Scripts/Stethoscope.gd"
 } ]
 _global_script_class_icons={
 "Card": "",
 "Game": "",
 "HeartsPlayer": "",
 "MessageBoard": "",
-"ScoreBoard": ""
+"ScoreBoard": "",
+"Stethoscope": ""
 }
 
 [application]

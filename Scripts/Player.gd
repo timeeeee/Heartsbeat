@@ -24,7 +24,18 @@ func is_there_any(suit: String) -> bool:
 	
 	
 func sort_cards():
-	yield(get_tree().create_timer(0), "timeout")
+	var new_order = cards.duplicate()
+	new_order.sort_custom(self, "_is_card_less_than")
+	for index in range(cards.size()):
+		var old_card = cards[index]
+		var new_card = new_order[index]
+		new_card.z_index = index
+		var tween: Tween = new_card.get_node("Tween")
+		tween.interpolate_property(new_card, "position", new_card.position, old_card.position, _card_move_time)
+		tween.start()
+		
+	cards = new_order
+	yield(get_tree().create_timer(_card_move_time), "timeout")
 
 
 func choose_move(_cards_so_far: Array):
