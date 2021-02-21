@@ -2,10 +2,10 @@ extends Node2D
 
 class_name HeartsPlayer
 
+export var _show_cards: bool = false
 
 var score: int
 onready var cards: Array = []
-var _show_cards = false
 onready var _card_move_time = get_tree().get_root().get_node("Hearts").card_move_time
 var _next_move: Card
 var game
@@ -23,6 +23,10 @@ func is_there_any(suit: String) -> bool:
 		
 	
 	
+func sort_cards():
+	yield(get_tree().create_timer(0), "timeout")
+
+
 func choose_move(_cards_so_far: Array):
 	yield()
 	
@@ -97,5 +101,23 @@ func make_move():
 	
 	card.reveal()
 	_next_move = null
+	
+	
+func win_cards(cards):
+	var global_target = to_global($TookTrickPosition.position)
+	for card in cards:
+		var target = card.get_parent().to_local(global_target)
+		var tween: Tween = card.get_node("Tween")
+		tween.interpolate_property(card, "position", card.position, target, _card_move_time)
+		tween.start()
+		
+	print("waiting for cards to move offscreen")
+	yield(get_tree().create_timer(_card_move_time), "timeout")
+	
+	for card in cards:
+		card.get_parent().remove_child(card)
+		card.flip()
+		add_child(card)
+		card.position = $TookTrickPosition.position
 
 

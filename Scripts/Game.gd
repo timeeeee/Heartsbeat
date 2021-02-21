@@ -5,7 +5,8 @@ class_name Game
 export var card_move_time: float
 export var trick_delay: float
 
-var scores: Dictionary
+var scores_by_round: Array
+var total_scores: Dictionary
 var round_number: int
 
 var human_player
@@ -18,6 +19,8 @@ var hands: Dictionary
 
 var card_scene = preload("res://Scenes/Card.tscn")
 var cards: Array
+
+var score_board: ScoreBoard
 
 
 # Called when the node enters the scene tree for the first time.
@@ -34,6 +37,8 @@ func _ready():
 			card.set_rank_and_suit(rank, suit)
 			cards.append(card)
 			$Deck.add_child(card)
+			
+	score_board = $ScoreBoard
 	
 	players = [$HumanPlayer, $WestPlayer, $NorthPlayer, $EastPlayer]
 	play_game()
@@ -41,44 +46,79 @@ func _ready():
 
 # play tricks until the someone has 100 points
 func play_game():
-	$MessageBoard.show_message("Play ball!")
-	for player in players:
-		scores[player] = 0
+	$MessageBoard.show_message("Let's goooooo")
 	
 	round_number = 1
+	scores_by_round = []
 	
-	while scores.values().max() < 100:
+	total_scores = {}
+	for player in players:
+		total_scores[player] = 0
+	
+	while true:
 		yield(play_round(), "completed")
-		
-	# show who won
-	pass
-	
-	# back to the menu
-	pass
 	
 	
 # deal a round, pass cards, play tricks until everyone's out of cards
 func play_round():
 	is_first_trick = true
 	is_hearts_broken = false
+	
 	yield(deal(), "completed")
+	print("sorting human's cards...")
 	yield($HumanPlayer.sort_cards(), "completed")
+	print("... did it.")
 	
 	for trick_number in range(13):
 		print("trick number ", trick_number)
 		yield(play_trick(), "completed")
 		
-	# move cards back from the pile to the deck
+	# count scores and put cards back in deck
+	var scores_this_round = {}
+	for player in players:
+		scores_this_round[player] = 0
+		
 	for card in cards:
-		$Pile.remove_child(card)
+		var player = card.get_parent()
+		if card.suit == "Hearts":
+			scores_this_round[player] += 1
+			total_scores[player] += 1
+			
+		if card.suit == "Spades" and card.rank == "Queen":
+			scores_this_round[player] += 13
+			total_scores[player] += 13
+
+		player.remove_child(card)
 		$Deck.add_child(card)
 		card.position = Vector2(0, 0)
 		card.rotation = 0
 		card.z_index = 0
+		
+	# did a player shoot the moon??
+	var player_who_did = null
+	for player in players:
+		if scores_this_round[player] == 26:
+			player_who_did = player
+			
+	# ... if so update scores
+	if player_who_did != null:
+		for player in players:
+			if player == player_who_did:
+				scores_this_round[player] = 0
+			else:
+				scores_this_round[player] = 26
+	
+	scores_by_round.append(scores_this_round)
+	
+	# show them!
+	score_board.show_scores(scores_by_round)
+	yield(score_board, "next_round")
+	
 	
 
 # shuffle and animate cards 
 func deal():
+	print("start dealing...")
 	cards.shuffle()
 
 	# deal them to players (player.take_card(card))
@@ -90,6 +130,8 @@ func deal():
 			leads_next_trick = player
 		yield(player.take_card(card), "completed")
 		i += 1
+		
+	print("... done dealing")
 
 	
 # ask players for their moves in the right order, and animate the results
@@ -123,26 +165,11 @@ func play_trick():
 			max_card = card
 			
 	print(leads_next_trick, " won the trick with the ", max_card)
-	
 	yield(get_tree().create_timer(trick_delay), "timeout")
 
 	# now actually take the cards from the players and hide them somewhere
 	# move off screen...
-	var target_node = leads_next_trick.get_node("TookTrickPosition")
-	var global_target = leads_next_trick.to_global(target_node.position)
-	for card in cards_so_far:
-		var target = card.get_parent().to_local(global_target)
-		var tween: Tween = card.get_node("Tween")
-		tween.interpolate_property(card, "position", card.position, target, card_move_time)
-		tween.start()
-		
-	print("waiting for cards to move offscreen")
-	yield(get_tree().create_timer(card_move_time), "timeout")
-	
-	for card in cards_so_far:
-		card.get_parent().remove_child(card)
-		card.flip()
-		$Pile.add_child(card)
+	yield(leads_next_trick.win_cards(cards_so_far), "completed")
 		
 	is_first_trick = false
 

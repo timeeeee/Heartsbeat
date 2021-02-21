@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+class_name MessageBoard
+
 func _ready():
 	pass
 	

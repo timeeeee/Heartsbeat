@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/Game.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/HumanPlayer.gd" type="Script" id=2]
@@ -6,15 +6,21 @@
 [ext_resource path="res://Sprites/cards.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/Spin.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/MessageBoard.gd" type="Script" id=6]
+[ext_resource path="res://Scripts/ScoreBoard.gd" type="Script" id=7]
+[ext_resource path="res://Fonts/OpenSans-Regular.tres" type="DynamicFont" id=8]
+[ext_resource path="res://Fonts/OpenSans-Bold.tres" type="DynamicFont" id=9]
+
+[sub_resource type="Theme" id=1]
 
 [node name="Hearts" type="Node2D"]
 script = ExtResource( 1 )
 card_move_time = 0.2
-trick_delay = 2.5
+trick_delay = 2.0
 
 [node name="HumanPlayer" type="Node2D" parent="."]
 position = Vector2( 511.528, 514.047 )
 script = ExtResource( 2 )
+_show_cards = true
 player_name = "Sally"
 
 [node name="PlayPosition" type="Node2D" parent="HumanPlayer"]
@@ -62,9 +68,6 @@ position = Vector2( -8.81949, -125.992 )
 [node name="TookTrickPosition" type="Node2D" parent="NorthPlayer"]
 position = Vector2( 7.55884, 240.645 )
 
-[node name="Pile" type="Node2D" parent="."]
-visible = false
-
 [node name="Spinner" type="Sprite" parent="."]
 visible = false
 position = Vector2( 57.9564, 59.2163 )
@@ -90,4 +93,971 @@ __meta__ = {
 
 [node name="Timer" type="Timer" parent="MessageBoard"]
 wait_time = 3.0
-[connection signal="timeout" from="MessageBoard/Timer" to="MessageBoard/Label" method="_on_Timer_timeout"]
+
+[node name="ScoreBoard" type="CanvasLayer" parent="."]
+script = ExtResource( 7 )
+
+[node name="Panel" type="Panel" parent="ScoreBoard"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_top = 40.0
+margin_right = -40.0
+margin_bottom = -40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreTable" type="VBoxContainer" parent="ScoreBoard/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 20.0
+margin_bottom = -60.0
+custom_constants/separation = 12
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Headers" type="HBoxContainer" parent="ScoreBoard/Panel/ScoreTable"]
+margin_right = 944.0
+margin_bottom = 23.0
+
+[node name="Label5" type="Label" parent="ScoreBoard/Panel/ScoreTable/Headers"]
+margin_right = 185.0
+margin_bottom = 23.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 9 )
+text = "Round"
+align = 1
+
+[node name="Label" type="Label" parent="ScoreBoard/Panel/ScoreTable/Headers"]
+margin_left = 189.0
+margin_right = 375.0
+margin_bottom = 23.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 9 )
+text = "Human"
+align = 1
+
+[node name="Label2" type="Label" parent="ScoreBoard/Panel/ScoreTable/Headers"]
+margin_left = 379.0
+margin_right = 564.0
+margin_bottom = 23.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 9 )
+text = "West"
+align = 1
+
+[node name="Label3" type="Label" parent="ScoreBoard/Panel/ScoreTable/Headers"]
+margin_left = 568.0
+margin_right = 754.0
+margin_bottom = 23.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 9 )
+text = "North"
+align = 1
+
+[node name="Label4" type="Label" parent="ScoreBoard/Panel/ScoreTable/Headers"]
+margin_left = 758.0
+margin_right = 944.0
+margin_bottom = 23.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 9 )
+text = "East"
+align = 1
+
+[node name="ScoreGrid" type="GridContainer" parent="ScoreBoard/Panel/ScoreTable"]
+margin_top = 35.0
+margin_right = 944.0
+margin_bottom = 400.0
+grow_horizontal = 0
+theme = SubResource( 1 )
+custom_constants/vseparation = 3
+columns = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="dummy" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_right = 185.0
+margin_bottom = 20.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "1"
+align = 1
+
+[node name="dummy2" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_right = 374.0
+margin_bottom = 20.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy3" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_right = 563.0
+margin_bottom = 20.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy4" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_right = 752.0
+margin_bottom = 20.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy5" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_right = 941.0
+margin_bottom = 20.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy6" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 23.0
+margin_right = 185.0
+margin_bottom = 43.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "2"
+align = 1
+
+[node name="dummy7" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 23.0
+margin_right = 374.0
+margin_bottom = 43.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy8" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 23.0
+margin_right = 563.0
+margin_bottom = 43.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy9" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 23.0
+margin_right = 752.0
+margin_bottom = 43.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy10" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 23.0
+margin_right = 941.0
+margin_bottom = 43.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy11" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 46.0
+margin_right = 185.0
+margin_bottom = 66.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "3"
+align = 1
+
+[node name="dummy12" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 46.0
+margin_right = 374.0
+margin_bottom = 66.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy13" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 46.0
+margin_right = 563.0
+margin_bottom = 66.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy14" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 46.0
+margin_right = 752.0
+margin_bottom = 66.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy15" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 46.0
+margin_right = 941.0
+margin_bottom = 66.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy16" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 69.0
+margin_right = 185.0
+margin_bottom = 89.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "4"
+align = 1
+
+[node name="dummy17" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 69.0
+margin_right = 374.0
+margin_bottom = 89.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy18" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 69.0
+margin_right = 563.0
+margin_bottom = 89.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy19" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 69.0
+margin_right = 752.0
+margin_bottom = 89.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy20" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 69.0
+margin_right = 941.0
+margin_bottom = 89.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy21" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 92.0
+margin_right = 185.0
+margin_bottom = 112.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "5"
+align = 1
+
+[node name="dummy22" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 92.0
+margin_right = 374.0
+margin_bottom = 112.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy23" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 92.0
+margin_right = 563.0
+margin_bottom = 112.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy24" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 92.0
+margin_right = 752.0
+margin_bottom = 112.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy25" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 92.0
+margin_right = 941.0
+margin_bottom = 112.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy26" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 115.0
+margin_right = 185.0
+margin_bottom = 135.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "6"
+align = 1
+
+[node name="dummy27" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 115.0
+margin_right = 374.0
+margin_bottom = 135.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy28" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 115.0
+margin_right = 563.0
+margin_bottom = 135.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy29" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 115.0
+margin_right = 752.0
+margin_bottom = 135.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy30" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 115.0
+margin_right = 941.0
+margin_bottom = 135.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy31" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 138.0
+margin_right = 185.0
+margin_bottom = 158.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "7"
+align = 1
+
+[node name="dummy32" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 138.0
+margin_right = 374.0
+margin_bottom = 158.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy33" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 138.0
+margin_right = 563.0
+margin_bottom = 158.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy34" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 138.0
+margin_right = 752.0
+margin_bottom = 158.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy35" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 138.0
+margin_right = 941.0
+margin_bottom = 158.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy36" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 161.0
+margin_right = 185.0
+margin_bottom = 181.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "8"
+align = 1
+
+[node name="dummy37" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 161.0
+margin_right = 374.0
+margin_bottom = 181.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy38" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 161.0
+margin_right = 563.0
+margin_bottom = 181.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy39" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 161.0
+margin_right = 752.0
+margin_bottom = 181.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy40" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 161.0
+margin_right = 941.0
+margin_bottom = 181.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy41" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 184.0
+margin_right = 185.0
+margin_bottom = 204.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "9"
+align = 1
+
+[node name="dummy42" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 184.0
+margin_right = 374.0
+margin_bottom = 204.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy43" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 184.0
+margin_right = 563.0
+margin_bottom = 204.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy44" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 184.0
+margin_right = 752.0
+margin_bottom = 204.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy45" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 184.0
+margin_right = 941.0
+margin_bottom = 204.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy46" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 207.0
+margin_right = 185.0
+margin_bottom = 227.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "10"
+align = 1
+
+[node name="dummy47" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 207.0
+margin_right = 374.0
+margin_bottom = 227.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy48" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 207.0
+margin_right = 563.0
+margin_bottom = 227.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy49" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 207.0
+margin_right = 752.0
+margin_bottom = 227.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy50" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 207.0
+margin_right = 941.0
+margin_bottom = 227.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy51" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 230.0
+margin_right = 185.0
+margin_bottom = 250.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "11"
+align = 1
+
+[node name="dummy52" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 230.0
+margin_right = 374.0
+margin_bottom = 250.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy53" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 230.0
+margin_right = 563.0
+margin_bottom = 250.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy54" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 230.0
+margin_right = 752.0
+margin_bottom = 250.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy55" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 230.0
+margin_right = 941.0
+margin_bottom = 250.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy56" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 253.0
+margin_right = 185.0
+margin_bottom = 273.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "12"
+align = 1
+
+[node name="dummy57" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 253.0
+margin_right = 374.0
+margin_bottom = 273.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy58" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 253.0
+margin_right = 563.0
+margin_bottom = 273.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy59" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 253.0
+margin_right = 752.0
+margin_bottom = 273.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy60" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 253.0
+margin_right = 941.0
+margin_bottom = 273.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy61" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 276.0
+margin_right = 185.0
+margin_bottom = 296.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "13"
+align = 1
+
+[node name="dummy62" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 276.0
+margin_right = 374.0
+margin_bottom = 296.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy63" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 276.0
+margin_right = 563.0
+margin_bottom = 296.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy64" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 276.0
+margin_right = 752.0
+margin_bottom = 296.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy65" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 276.0
+margin_right = 941.0
+margin_bottom = 296.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy66" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 299.0
+margin_right = 185.0
+margin_bottom = 319.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "14"
+align = 1
+
+[node name="dummy67" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 299.0
+margin_right = 374.0
+margin_bottom = 319.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy68" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 299.0
+margin_right = 563.0
+margin_bottom = 319.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy69" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 299.0
+margin_right = 752.0
+margin_bottom = 319.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy70" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 299.0
+margin_right = 941.0
+margin_bottom = 319.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy71" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 322.0
+margin_right = 185.0
+margin_bottom = 342.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "15"
+align = 1
+
+[node name="dummy72" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 322.0
+margin_right = 374.0
+margin_bottom = 342.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy73" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 322.0
+margin_right = 563.0
+margin_bottom = 342.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy74" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 322.0
+margin_right = 752.0
+margin_bottom = 342.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="last" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 322.0
+margin_right = 941.0
+margin_bottom = 342.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy75" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_top = 345.0
+margin_right = 185.0
+margin_bottom = 365.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "16"
+align = 1
+
+[node name="dummy76" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 189.0
+margin_top = 345.0
+margin_right = 374.0
+margin_bottom = 365.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy77" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 378.0
+margin_top = 345.0
+margin_right = 563.0
+margin_bottom = 365.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="dummy78" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 567.0
+margin_top = 345.0
+margin_right = 752.0
+margin_bottom = 365.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="last2" type="Label" parent="ScoreBoard/Panel/ScoreTable/ScoreGrid"]
+margin_left = 756.0
+margin_top = 345.0
+margin_right = 941.0
+margin_bottom = 365.0
+size_flags_horizontal = 7
+custom_fonts/font = ExtResource( 8 )
+text = "last"
+align = 1
+
+[node name="Totals" type="HBoxContainer" parent="ScoreBoard/Panel/ScoreTable"]
+margin_top = 412.0
+margin_right = 944.0
+margin_bottom = 435.0
+
+[node name="Totals" type="Label" parent="ScoreBoard/Panel/ScoreTable/Totals"]
+margin_right = 185.0
+margin_bottom = 23.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 9 )
+text = "Total"
+align = 1
+
+[node name="HumanTotal" type="Label" parent="ScoreBoard/Panel/ScoreTable/Totals"]
+margin_left = 189.0
+margin_top = 1.0
+margin_right = 375.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="WestTotal" type="Label" parent="ScoreBoard/Panel/ScoreTable/Totals"]
+margin_left = 379.0
+margin_top = 1.0
+margin_right = 564.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="NorthTotal" type="Label" parent="ScoreBoard/Panel/ScoreTable/Totals"]
+margin_left = 568.0
+margin_top = 1.0
+margin_right = 754.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="EastTotal" type="Label" parent="ScoreBoard/Panel/ScoreTable/Totals"]
+margin_left = 758.0
+margin_top = 1.0
+margin_right = 944.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+align = 1
+
+[node name="NextRoundButton" type="Button" parent="ScoreBoard/Panel"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -120.0
+margin_top = -40.0
+margin_right = -20.0
+margin_bottom = -20.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 8 )
+text = "Next Round"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButton" type="Button" parent="ScoreBoard/Panel"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -120.0
+margin_top = -40.0
+margin_right = -20.0
+margin_bottom = -20.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 8 )
+text = "Back to menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WinLabel" type="Label" parent="ScoreBoard/Panel"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = -40.0
+margin_right = 600.0
+margin_bottom = -20.0
+custom_fonts/font = ExtResource( 9 )
+text = "win label placeholder"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="timeout" from="MessageBoard/Timer" to="MessageBoard" method="_on_Timer_timeout"]
+[connection signal="pressed" from="ScoreBoard/Panel/NextRoundButton" to="ScoreBoard" method="_on_NextRoundButton_pressed"]
+[connection signal="pressed" from="ScoreBoard/Panel/MenuButton" to="ScoreBoard" method="_on_MenuButton_pressed"]

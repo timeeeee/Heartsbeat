@@ -23,11 +23,23 @@ _global_script_classes=[ {
 "class": "HeartsPlayer",
 "language": "GDScript",
 "path": "res://Scripts/Player.gd"
+}, {
+"base": "CanvasLayer",
+"class": "MessageBoard",
+"language": "GDScript",
+"path": "res://Scripts/MessageBoard.gd"
+}, {
+"base": "CanvasLayer",
+"class": "ScoreBoard",
+"language": "GDScript",
+"path": "res://Scripts/ScoreBoard.gd"
 } ]
 _global_script_class_icons={
 "Card": "",
 "Game": "",
-"HeartsPlayer": ""
+"HeartsPlayer": "",
+"MessageBoard": "",
+"ScoreBoard": ""
 }
 
 [application]

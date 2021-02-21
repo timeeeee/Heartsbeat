@@ -3,12 +3,15 @@ extends HeartsPlayer
 signal card_was_clicked(card)
 
 export var player_name: String
+var message_board: MessageBoard
+
 
 func _ready():
 	_show_cards = true
+	message_board = get_node("../MessageBoard")
 	
 
-func choose_move(cards_so_far: Array):
+func choose_move2(cards_so_far: Array):
 	var valid_cards = []
 	if cards_so_far.empty():  # if we're leading...
 		for card in cards:
@@ -37,6 +40,34 @@ func choose_move(cards_so_far: Array):
 	_next_move = null
 	while not valid_cards.has(_next_move):
 		_next_move = yield(self, "card_was_clicked")
+		
+		
+func choose_move(cards_so_far: Array):
+	var card
+	while true:
+		# get a potential move, then see if it's valid
+		card = yield(self, "card_was_clicked")
+
+		# if it's leading the first trick, must be 2 of clubs
+		if game.is_first_trick and cards_so_far.size() == 0 and (card.suit != "Clubs" or card.rank != "Two"):
+			message_board.show_message("Please lead the first trick with Two of Clubs")
+			continue
+			
+		# are we leading with a heart before they're broken?
+		if cards_so_far.size() == 0 and card.suit == "Hearts" and not game.is_hearts_broken:
+			message_board.show_message("Hearts isn't broken yet!")
+			continue
+			
+		# can we match the leading suit, but we're not?
+		if cards_so_far.size() > 0:
+			var leading_suit = cards_so_far[0].suit
+			if card.suit != leading_suit and is_there_any(leading_suit):
+				message_board.show_message("Please play a {suit}".format({"suit": leading_suit.trim_suffix("s")}))
+				continue
+			
+		# if all that checks out, this is a valid move
+		_next_move = card
+		break
 		
 
 func _is_card_less_than(card1: Card, card2: Card):
