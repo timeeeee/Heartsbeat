@@ -122,7 +122,6 @@ func win_cards(cards):
 		tween.interpolate_property(card, "position", card.position, target, _card_move_time)
 		tween.start()
 		
-	print("waiting for cards to move offscreen")
 	yield(get_tree().create_timer(_card_move_time), "timeout")
 	
 	for card in cards:

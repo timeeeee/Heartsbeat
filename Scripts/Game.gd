@@ -25,6 +25,8 @@ var score_board: ScoreBoard
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	randomize()
+	
 	# create cards!
 	var suits = ["Spades", "Diamonds", "Clubs", "Hearts"]
 	var ranks = [
@@ -65,12 +67,9 @@ func play_round():
 	is_hearts_broken = false
 	
 	yield(deal(), "completed")
-	print("sorting human's cards...")
 	yield($HumanPlayer.sort_cards(), "completed")
-	print("... did it.")
 	
 	for trick_number in range(13):
-		print("trick number ", trick_number)
 		yield(play_trick(), "completed")
 		
 	# count scores and put cards back in deck
@@ -118,7 +117,6 @@ func play_round():
 
 # shuffle and animate cards 
 func deal():
-	print("start dealing...")
 	cards.shuffle()
 
 	# deal them to players (player.take_card(card))
@@ -130,8 +128,6 @@ func deal():
 			leads_next_trick = player
 		yield(player.take_card(card), "completed")
 		i += 1
-		
-	print("... done dealing")
 
 	
 # ask players for their moves in the right order, and animate the results
@@ -156,7 +152,8 @@ func play_trick():
 	for index in range(4):
 		var card = cards_so_far[index]
 		var player = players[(index + leader_index) % 4]
-		if card.suit == "Hearts":
+		if card.suit == "Hearts" and not is_hearts_broken:
+			$MessageBoard.show_message("Hearts were broken!")
 			is_hearts_broken = true
 			
 		if card.suit == trick_suit and card.value > max_value:

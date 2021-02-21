@@ -17,8 +17,8 @@ func _input(event):
 	if event is InputEventMouseMotion and _is_dragged:
 		var global_pos = get_viewport().get_mouse_position()
 		position = get_parent().to_local(get_viewport().get_mouse_position())
-		
-	
+		update_sounds()
+
 
 # allow dragging
 func activate():
@@ -30,20 +30,27 @@ func activate():
 # don't allow dragging
 func deactivate():
 	_is_active = false
+	drop()
 	$InactiveSprite.visible = true
 	$ActiveSprite.visible = false
 	
 
 func pick_up():
-	print("stethoscope: pick up")
 	if _is_active:
 		_is_dragged = true
 	
 	
 func drop():
-	print("stethoscope: drop")
 	_is_dragged = false
 	position = _original_position
+	update_sounds()
+	
+	
+func update_sounds():
+	# set all the card volumes!
+	for card in get_tree().get_nodes_in_group("cards"):
+		var c: Card = card
+		c.set_listen_position(get_parent().to_global(position))
 
 
 func _on_Area2D_input_event(viewport, event: InputEvent, shape_idx):
