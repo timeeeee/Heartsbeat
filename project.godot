@@ -51,9 +51,10 @@ _global_script_class_icons={
 [application]
 
 config/name="Heartsbeat"
-run/main_scene="res://Scenes/Hearts.tscn"
+run/main_scene="res://Scenes/MainMenu.tscn"
 config/icon="res://icon.png"
 
 [rendering]
 
+environment/default_clear_color=Color( 0.25098, 0.0627451, 0.0627451, 1 )
 environment/default_environment="res://default_env.tres"

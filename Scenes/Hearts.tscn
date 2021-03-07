@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/Game.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/HumanPlayer.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Scripts/Stethoscope.gd" type="Script" id=10]
 [ext_resource path="res://Sprites/stethoscope_grey.png" type="Texture" id=11]
 [ext_resource path="res://Sprites/stethoscope.png" type="Texture" id=12]
+[ext_resource path="res://Sounds/Apoxode_-_Still_Snowing_1.ogg" type="AudioStream" id=13]
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 47.7544
@@ -1086,6 +1087,11 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+volume_db = -26.254
+autoplay = true
 [connection signal="input_event" from="HumanPlayer/Stethoscope/Area2D" to="HumanPlayer/Stethoscope" method="_on_Area2D_input_event"]
 [connection signal="timeout" from="MessageBoard/Timer" to="MessageBoard" method="_on_Timer_timeout"]
 [connection signal="pressed" from="ScoreBoard/Panel/NextRoundButton" to="ScoreBoard" method="_on_NextRoundButton_pressed"]
